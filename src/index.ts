@@ -17,11 +17,17 @@ app.use(express.static(publicDir));
 const message = 'Welcome to my chatapp';
 
 io.on('connection', (socket: any) => {
-    console.log('new web socket connection')
     socket.emit('message', message );
+    socket.broadcast.emit('message', 'A new user has joined!');
+
 
     socket.on('chat', (chat: string) => {
         io.emit('message', chat)
+    });
+
+    // When a user leaves
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left!')
     })
 })
 
