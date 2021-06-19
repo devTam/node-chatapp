@@ -13,3 +13,17 @@ document.getElementById('message-form').addEventListener('submit', (e) => {
     socket.emit('chat', chat);
     input.value = '';
 });
+
+document.getElementById('send-location').addEventListener('click', () => {
+    if(!navigator.geolocation) {
+        return alert('Geolocation is not supported by your browser');
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        const location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }
+        socket.emit('sendLocation', location);
+    });
+})
