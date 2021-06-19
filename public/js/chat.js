@@ -10,7 +10,9 @@ const input = document.getElementById('message');
 document.getElementById('message-form').addEventListener('submit', (e) => {
     e.preventDefault();
     const chat = input.value;
-    socket.emit('chat', chat);
+    socket.emit('chat', chat, () => {
+        console.log('The message was delivered')
+    });
     input.value = '';
 });
 
@@ -24,6 +26,8 @@ document.getElementById('send-location').addEventListener('click', () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         }
-        socket.emit('sendLocation', location);
+        socket.emit('sendLocation', location, () => {
+            console.log('Location shared');
+        });
     });
 })

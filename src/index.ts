@@ -21,13 +21,15 @@ io.on('connection', (socket: any) => {
     socket.broadcast.emit('message', 'A new user has joined!');
 
 
-    socket.on('chat', (chat: string) => {
-        io.emit('message', chat)
+    socket.on('chat', (chat: string, callback: Function) => {
+        io.emit('message', chat);
+        callback();
     });
 
-    socket.on('sendLocation', (location: { latitude: number, longitude: number }) => {
-        io.emit('message', `https://google.com/maps?q=${location.latitude},${location.longitude}`)
-    })
+    socket.on('sendLocation', (location: { latitude: number, longitude: number }, callback: Function) => {
+        io.emit('message', `https://google.com/maps?q=${location.latitude},${location.longitude}`);
+        callback();
+    });
 
     // When a user leaves
     socket.on('disconnect', () => {
